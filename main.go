@@ -61,13 +61,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	jsonRes, err := Request(apiKey)
+	err = Request(apiKey)
 	if err != nil {
 		fmt.Printf("error requesting data: %+v", err)
 		return
 	}
-
-	fmt.Println(jsonRes)
 
 	//	for _, internship := range internships {
 	//		fmt.Println("Hello", internship.FirstName, internship.LastName)
@@ -108,10 +106,10 @@ func SetEnv(filename string) error {
 	return nil
 }
 
-func Request(apiKey string) (int, error) {
+func Request(apiKey string) error {
 	client := &http.Client{}
 
-	url := fmt.Sprintf("https://api.openrouteservice.org/geocode/search?api_key=%s&text=Besançon", apiKey)
+	url := fmt.Sprintf("https://api.openrouteservice.org/geocode/search?api_key=%s&text=VESOUL", apiKey)
 
 	req, _ := http.NewRequest("GET", url, nil)
 
@@ -120,7 +118,7 @@ func Request(apiKey string) (int, error) {
 	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Errored when sending request to server")
-		return 1, err
+		return err
 	}
 
 	defer res.Body.Close()
@@ -130,7 +128,7 @@ func Request(apiKey string) (int, error) {
 	err = decoder.Decode(&coors)
 	if err != nil {
 		fmt.Println("error decoding response", err)
-		return 1, err
+		return err
 	}
 
 	fmt.Println(res.Status)
@@ -138,7 +136,7 @@ func Request(apiKey string) (int, error) {
 
 	fmt.Printf("Longitude: %f, Latitude: %f\n", lon, lat)
 
-	return 0, nil
+	return nil
 }
 
 func (c *Coordinates) GetCoordinates() (lon, lat float64) {
