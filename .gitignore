@@ -1,4 +1,4 @@
 *.csv
 main.sh
 test.sh
-
+.env
