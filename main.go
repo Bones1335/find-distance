@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 
 	"github.com/Bones1335/find-distance/api"
@@ -37,22 +38,22 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	/*
-		lon1, lat1, err := api.GetGeocodeRequest(apiKey, "70000 VESOUL")
-		if err != nil {
-			fmt.Printf("error requesting data: %+v", err)
-			return
-		}
-		fmt.Printf("Vesoul => Longitude: %f, Latitude: %f\n", lon1, lat1)
 
-		lon2, lat2, err := api.GetGeocodeRequest(apiKey, "25000 BESANCON")
-		if err != nil {
-			fmt.Printf("error requesting data: %+v", err)
-			return
-		}
-		fmt.Printf("Besak => Longitude: %f, Latitude: %f\n", lon2, lat2)
-	*/
-	cities := [2][2]float64{{6.153007, 47.625482}, {6.012901, 47.246152}}
+	lon1, lat1, err := api.GetGeocodeRequest(apiKey, url.PathEscape("70000 VESOUL"))
+	if err != nil {
+		fmt.Printf("error requesting data: %+v", err)
+		return
+	}
+	fmt.Printf("Vesoul => Longitude: %f, Latitude: %f\n", lon1, lat1)
+
+	lon2, lat2, err := api.GetGeocodeRequest(apiKey, url.PathEscape("25000 BESANCON"))
+	if err != nil {
+		fmt.Printf("error requesting data: %+v", err)
+		return
+	}
+	fmt.Printf("Besak => Longitude: %f, Latitude: %f\n", lon2, lat2)
+
+	cities := [][]float64{{lon1, lat1}, {lon2, lat2}}
 
 	dist, err := api.PostDirectionsRequest(apiKey, cities)
 	if err != nil {
@@ -60,7 +61,7 @@ func main() {
 		return
 	}
 
-	fmt.Println(dist)
+	fmt.Println(dist / 1000)
 
 	//	for _, internship := range internships {
 	//		fmt.Println("Hello", internship.FirstName, internship.LastName)

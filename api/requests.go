@@ -38,12 +38,13 @@ func GetGeocodeRequest(apiKey, city string) (float64, float64, error) {
 	return lon, lat, nil
 }
 
-func PostDirectionsRequest(apiKey string, cities [2][2]float64) (dist float64, err error) {
+func PostDirectionsRequest(apiKey string, cities [][]float64) (dist float64, err error) {
 	client := &http.Client{}
 
-	body := []byte("{\"coordinates\":[[6.153007, 47.625482], [6.012901, 47.246152]]}")
+	body := fmt.Sprintf("{\"coordinates\":[[%f,%f],[%f,%f]]}", cities[0][0], cities[0][1], cities[1][0], cities[1][1])
+	fmt.Println(body)
 
-	req, err := http.NewRequest("POST", "https://api.openrouteservice.org/v2/directions/driving-car", bytes.NewBuffer(body))
+	req, err := http.NewRequest("POST", "https://api.openrouteservice.org/v2/directions/driving-car", bytes.NewBuffer([]byte(body)))
 	if err != nil {
 		fmt.Printf("error requesting directions: %s", err)
 		return 0, err
