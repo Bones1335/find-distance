@@ -24,3 +24,14 @@ type Geometry struct {
 	Type        string    `json:"type"`
 	Coordinates []float64 `json:"coordinates"`
 }
+
+type Directions struct {
+	Routes []Route `json:"routes"`
+}
+type Route struct {
+	Summary Summary `json:"summary"`
+}
+
+type Summary struct {
+	Distance float64 `json:"distance"`
+}

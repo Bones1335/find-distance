@@ -37,12 +37,30 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	/*
+		lon1, lat1, err := api.GetGeocodeRequest(apiKey, "70000 VESOUL")
+		if err != nil {
+			fmt.Printf("error requesting data: %+v", err)
+			return
+		}
+		fmt.Printf("Vesoul => Longitude: %f, Latitude: %f\n", lon1, lat1)
 
-	err = api.GetRequest(apiKey)
+		lon2, lat2, err := api.GetGeocodeRequest(apiKey, "25000 BESANCON")
+		if err != nil {
+			fmt.Printf("error requesting data: %+v", err)
+			return
+		}
+		fmt.Printf("Besak => Longitude: %f, Latitude: %f\n", lon2, lat2)
+	*/
+	cities := [2][2]float64{{6.153007, 47.625482}, {6.012901, 47.246152}}
+
+	dist, err := api.PostDirectionsRequest(apiKey, cities)
 	if err != nil {
-		fmt.Printf("error requesting data: %+v", err)
+		fmt.Println("Error getting distance", err)
 		return
 	}
+
+	fmt.Println(dist)
 
 	//	for _, internship := range internships {
 	//		fmt.Println("Hello", internship.FirstName, internship.LastName)

@@ -7,3 +7,11 @@ func (ors *OpenRouteService) GetCoordinates() (lon, lat float64) {
 
 	return 0, 0
 }
+
+func (d *Directions) GetDistance() (dist float64) {
+	if len(d.Routes) > 0 && d.Routes[0].Summary.Distance >= 1 {
+		return d.Routes[0].Summary.Distance
+	}
+
+	return 0
+}
