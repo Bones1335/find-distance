@@ -35,3 +35,9 @@ type Route struct {
 type Summary struct {
 	Distance float64 `json:"distance"`
 }
+
+type Distance struct {
+	LastName  string  `csv:"last_name"`
+	FirstName string  `csv:"first_name"`
+	Distance  float64 `csv:"distance"`
+}

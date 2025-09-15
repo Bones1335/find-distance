@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/Bones1335/find-distance/api"
+	"github.com/Bones1335/find-distance/internal/createCsv"
 	"github.com/Bones1335/find-distance/internal/env"
 	"github.com/gocarina/gocsv"
 )
@@ -39,6 +40,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	var calculatedDistances []api.Distance
 	for _, internship := range internships {
 
 		fixedCity := url.PathEscape(internship.FixedZipCode + " " + internship.FixedCity)
@@ -65,10 +67,12 @@ func main() {
 			return
 		}
 
-		fmt.Println(dist / 1000)
-
-		fmt.Println("Fixed City info: ", fixedCity)
-		fmt.Println("Current City info: ", currentCity)
+		calculatedDistances = append(calculatedDistances, api.Distance{
+			LastName:  internship.LastName,
+			FirstName: internship.FirstName,
+			Distance:  ((dist / 1000) * 2),
+		})
 	}
 
+	createCsv.CreateCsv(calculatedDistances)
 }
