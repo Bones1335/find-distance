@@ -42,7 +42,6 @@ func PostDirectionsRequest(apiKey string, cities [][]float64) (dist float64, err
 	client := &http.Client{}
 
 	body := fmt.Sprintf("{\"coordinates\":[[%f,%f],[%f,%f]]}", cities[0][0], cities[0][1], cities[1][0], cities[1][1])
-	fmt.Println(body)
 
 	req, err := http.NewRequest("POST", "https://api.openrouteservice.org/v2/directions/driving-car", bytes.NewBuffer([]byte(body)))
 	if err != nil {
@@ -69,6 +68,7 @@ func PostDirectionsRequest(apiKey string, cities [][]float64) (dist float64, err
 		fmt.Println("error decoding response", err)
 		return 0, err
 	}
+
 	fmt.Println(res.Status)
 	dist = distance.GetDistance()
 
